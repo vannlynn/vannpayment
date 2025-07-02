@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VANN HOST ⚡ - Payment</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #0a0f1a;
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 420px;
+      width: 100%;
+      background: #121826;
+      border-radius: 20px;
+      padding: 25px 20px;
+      text-align: center;
+      box-shadow: 0 0 12px #00ffc855;
+    }
+
+    .avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      border: 2px solid #00ffd0;
+      margin-bottom: 10px;
+    }
+
+    select, button {
+      font-size: 16px;
+      border-radius: 10px;
+      border: none;
+      padding: 8px 14px;
+      margin: 5px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    select {
+      background: #151e30;
+      color: white;
+      border: 1px solid #00ffd0aa;
+    }
+
+    .highlight {
+      color: #00ffd0;
+    }
+
+    .payment-btn {
+      background: #151e30;
+      border: 2px solid #00ffd0aa;
+      color: white;
+      margin: 5px 4px;
+      min-width: 80px;
+    }
+
+    .payment-btn.active,
+    .payment-btn:hover {
+      background-color: #00ffd0;
+      color: black;
+    }
+
+    .box {
+      margin-top: 20px;
+    }
+
+    .copy-btn, .wa-btn {
+      background-color: transparent;
+      color: #00ffd0;
+      border: 2px solid #00ffd0aa;
+      padding: 9px 18px;
+      margin-top: 10px;
+      border-radius: 10px;
+      transition: 0.3s ease;
+    }
+
+    .copy-btn:hover,
+    .wa-btn:hover {
+      background-color: #00ffd0;
+      color: #121826;
+    }
+
+    .wa-btn {
+      display: inline-block;
+      margin-top: 25px;
+      font-weight: bold;
+    }
+
+    .qris-img {
+      margin-top: 15px;
+      width: 100%;
+      border-radius: 10px;
+      border: 1.5px solid #00ffd0aa;
+    }
+
+    .language-select {
+      margin-bottom: 10px;
+    }
+
+    p {
+      margin: 6px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="https://files.catbox.moe/euwqkr.jpg" class="avatar" alt="Avatar" />
+    
+    <br />
+    <select id="country" class="language-select">
+      <option value="id">🇮🇩 Indonesia</option>
+      <option value="en">🇬🇧 English</option>
+    </select>
+
+    <h2 id="title">Payment <span class="highlight">VANN HOST ⚡</span></h2>
+
+    <div>
+      <button class="payment-btn active" onclick="show('dana', this)">DANA</button>
+      <button class="payment-btn" onclick="show('gopay', this)">GOPAY</button>
+      <button class="payment-btn" onclick="show('qris', this)">QRIS</button>
+    </div>
+
+    <div id="payment-info" class="box">
+      <div id="dana-box">
+        <p>DANA:</p>
+        <p class="highlight">082278709027</p>
+        <p>A/n Susanti</p>
+        <button class="copy-btn" onclick="copyText('082278709027')">Salin Nomor</button>
+      </div>
+      <div id="gopay-box" style="display:none;">
+        <p>GOPAY:</p>
+        <p class="highlight">088286847459</p>
+        <p>A/n Susanti</p>
+        <button class="copy-btn" onclick="copyText('088286847459')">Salin Nomor</button>
+      </div>
+      <div id="qris-box" style="display:none;">
+        <p>QRIS:</p>
+        <img src="https://files.catbox.moe/e48n20.jpg" alt="QRIS" class="qris-img" />
+        <a href="https://files.catbox.moe/e48n20.jpg" download>
+          <button class="copy-btn">Unduh QRIS</button>
+        </a>
+      </div>
+    </div>
+
+    <p id="note">
+      Setelah transfer, mohon kirimkan bukti pembayaran ke <span class="highlight">VANN HOST ⚡</span> melalui WhatsApp.
+    </p>
+
+    <a id="wa-link" href="https://wa.me/6283842025769" target="_blank" class="wa-btn">Hubungi WhatsApp</a>
+  </div>
+
+  <script>
+    function show(method, el) {
+      document.querySelectorAll('.payment-btn').forEach(btn => btn.classList.remove('active'));
+      el.classList.add('active');
+
+      ['dana', 'gopay', 'qris'].forEach(id => {
+        document.getElementById(`${id}-box`).style.display = id === method ? 'block' : 'none';
+      });
+    }
+
+    function copyText(text) {
+      navigator.clipboard.writeText(text).then(() =>
+        alert("Nomor disalin: " + text)
+      );
+    }
+
+    const langTexts = {
+      id: {
+        title: "Payment <span class='highlight'>VANN HOST ⚡</span>",
+        note: "Setelah transfer, mohon kirimkan bukti pembayaran ke <span class='highlight'>VANN HOST ⚡</span> melalui WhatsApp.",
+        wa: "Hubungi WhatsApp"
+      },
+      en: {
+        title: "Payment <span class='highlight'>VANN HOST ⚡</span>",
+        note: "After transfer, please send payment proof to <span class='highlight'>VANN HOST ⚡</span> via WhatsApp.",
+        wa: "Contact WhatsApp"
+      }
+    };
+
+    document.getElementById('country').addEventListener('change', function () {
+      const lang = this.value;
+      document.getElementById('title').innerHTML = langTexts[lang].title;
+      document.getElementById('note').innerHTML = langTexts[lang].note;
+      document.getElementById('wa-link').innerText = langTexts[lang].wa;
+    });
+  </script>
+</body>
+</html>
